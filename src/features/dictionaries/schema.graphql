@@ -1,0 +1,46 @@
+type Category {
+  id: ID!
+  name: String!
+  code: String
+}
+
+input CategoryInput {
+  id: ID!
+  name: String!
+  code: String
+}
+
+type Type {
+  id: ID!
+  name: String!
+  code: String
+}
+
+input TypeInput {
+  id: ID!
+  name: String!
+  code: String
+}
+
+type Country {
+  id: ID!
+  name: String!
+  code: String
+}
+
+type County {
+  id: ID!
+  name: String!
+  code: String
+}
+
+type City {
+  id: ID!
+  name: String!
+  code: String
+}
+
+type Status {
+  id: Int!
+  name: String!
+}
