@@ -39,4 +39,5 @@ input ConferenceFilterInput {
 }
 extend type Query {
   conferenceList(pager: PagerInput!, filters: ConferenceFilterInput): ConferenceList
+  conference(id: ID!): Conference
 }

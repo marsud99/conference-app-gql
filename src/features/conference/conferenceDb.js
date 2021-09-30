@@ -1,4 +1,5 @@
 const { SQLDataSource } = require('../../utils/sqlDataSource')
+const conferenceColumns = ['Id', 'Name', 'ConferenceTypeId', 'LocationId', 'CategoryId', 'StartDate', 'EndDate']
 
 class ConferenceDb extends SQLDataSource {
   generateWhereClause(queryBuilder, filters = {}) {
@@ -10,7 +11,7 @@ class ConferenceDb extends SQLDataSource {
   async getConferenceList(pager, filters) {
     const { page, pageSize } = pager
     const values = await this.knex
-      .select('Id', 'Name', 'ConferenceTypeId', 'LocationId', 'CategoryId', 'StartDate', 'EndDate')
+      .select(...conferenceColumns)
       .from('Conference')
       .modify(this.generateWhereClause, filters)
       .orderBy('Id')
@@ -21,6 +22,15 @@ class ConferenceDb extends SQLDataSource {
 
   async getConferenceListTotalCount(filters) {
     return await this.knex('Conference').count('Id', { as: 'TotalCount' }).modify(this.generateWhereClause, filters).first()
+  }
+
+  async getConferenceById(id) {
+    const result = await this.knex
+      .select(...conferenceColumns)
+      .from('Conference')
+      .where('Id', id)
+      .first()
+    return result
   }
 }
 
