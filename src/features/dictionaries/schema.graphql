@@ -44,3 +44,11 @@ type Status {
   id: Int!
   name: String!
 }
+
+extend type Query {
+  typeList: [Type!]!
+  categoryList: [Category!]!
+  countryList: [Country!]!
+  countyList: [County!]!
+  cityList: [City!]!
+}
