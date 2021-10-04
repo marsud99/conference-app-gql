@@ -37,7 +37,17 @@ input ConferenceFilterInput {
   endDate: DateTime
   organizerEmail: String
 }
+
+input Attendee {
+  attendeeEmail: String!
+  conferenceId: ID!
+}
+
 extend type Query {
   conferenceList(pager: PagerInput!, filters: ConferenceFilterInput): ConferenceList
   conference(id: ID!): Conference
+}
+
+extend type Mutation {
+  attend(input: Attendee): String
 }

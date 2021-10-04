@@ -1,3 +1,5 @@
+const status = require('../../utils/constants')
+const { randomCharacters } = require('../../utils/functions')
 const conferenceResolvers = {
   Query: {
     conferenceList: async (_parent, { pager, filters }, { dataSources }, _info) => {
@@ -49,6 +51,13 @@ const conferenceResolvers = {
     country: async ({ countryId }, _params, { dataLoaders }) => {
       const country = await dataLoaders.countryById.load(countryId)
       return country
+    }
+  },
+  Mutation: {
+    attend: async (_parent, { input }, { dataSources }, _info) => {
+      const updateInput = { ...input, statusId: status.Attended }
+      const statusId = await dataSources.conferenceDb.updateConferenceXAttendee(updateInput)
+      return statusId ? randomCharacters(10) : null
     }
   }
 }
