@@ -1,5 +1,14 @@
 const { SQLDataSource } = require('../../utils/sqlDataSource')
-const conferenceColumns = ['Id', 'Name', 'ConferenceTypeId', 'LocationId', 'StartDate', 'EndDate', 'CategoryId']
+const conferenceColumns = [
+  'Id',
+  'Name',
+  'ConferenceTypeId',
+  'LocationId',
+  'OrganizerEmail',
+  'StartDate',
+  'EndDate',
+  'CategoryId'
+]
 class ConferenceDb extends SQLDataSource {
   generateWhereClause(queryBuilder, filters = {}) {
     const { startDate, endDate, organizerEmail } = filters
@@ -125,6 +134,15 @@ class ConferenceDb extends SQLDataSource {
   async deleteSpeakers(speakerIds) {
     await this.knex('ConferenceXSpeaker').whereIn('SpeakerId', speakerIds).del()
     await this.knex('Speaker').whereIn('Id', speakerIds).del()
+  }
+
+  async getUsers(id) {
+    const userEmails = await this.knex
+      .select('AttendeeEmail')
+      .from('ConferenceXAttendee')
+      .where('ConferenceId', id)
+      .andWhere('StatusId', 1)
+    return userEmails
   }
 }
 module.exports = ConferenceDb

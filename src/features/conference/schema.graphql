@@ -3,6 +3,7 @@ type Conference {
   name: String!
   startDate: DateTime!
   endDate: DateTime!
+  organizerEmail: String
   type: Type
   category: Category
   location: Location!
@@ -82,12 +83,19 @@ input SpeakersInput {
   rating: Float
   isMainSpeaker: Boolean
 }
+
+type UsersList {
+  attendeeEmail: String
+}
+
 extend type Query {
   conferenceList(pager: PagerInput!, filters: ConferenceFilterInput): ConferenceList
   conference(id: ID!): Conference
+  users(id: ID!): [UsersList]
 }
 extend type Mutation {
   attend(input: Attendee): AttendConference
   withdraw(input: Attendee): Int
   saveConference(input: ConferenceInput): Conference
+  join(input: Attendee): String
 }
